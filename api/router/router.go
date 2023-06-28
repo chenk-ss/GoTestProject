@@ -12,6 +12,7 @@ func Register() *gin.Engine {
 	r := gin.Default()
 	r.Use(CorsMiddleware())
 	initUserRouter(r)
+	initFileRouter(r)
 	r.NoRoute(func(c *gin.Context) {
 		tools.FailWithMsg(c, "please check request url !")
 	})
@@ -27,6 +28,12 @@ func initUserRouter(r *gin.Engine) {
 	{
 		// userGroup.POST("/checkAuth", handler.CheckAuth)
 	}
+}
+
+func initFileRouter(r *gin.Engine) {
+	userGroup := r.Group("/file")
+	userGroup.GET("/collect", handler.FileCollect)
+	userGroup.GET("/random", handler.Random)
 }
 
 func CorsMiddleware() gin.HandlerFunc {
