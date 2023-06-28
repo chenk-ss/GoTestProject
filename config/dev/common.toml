@@ -1,0 +1,7 @@
+[common-redis]
+redisAddress = "ip:port"
+redisPassword = "pwd"
+db = 1
+
+[common-mysql]
+mysqlAddress = "user:pwd@tcp(ip:port)/gotestproject?charset=utf8&parseTime=True&loc=Local"
