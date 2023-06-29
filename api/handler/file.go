@@ -1,12 +1,12 @@
 package handler
 
 import (
-	"fmt"
 	"goTestProject/logic/dao"
 	"goTestProject/tools"
 	"log"
 	"os"
 	"strings"
+	"sync"
 
 	"github.com/gin-gonic/gin"
 )
@@ -28,8 +28,11 @@ func FileInfo(c *gin.Context) {
 	tools.SuccessWithMsg(c, "Query file info ok!", param.Id)
 }
 
+var wg sync.WaitGroup
+
 func FileCollect(c *gin.Context) {
 	FilsInPath(baseFilePath)
+	wg.Wait()
 }
 
 func FilsInPath(path string) {
@@ -38,12 +41,12 @@ func FilsInPath(path string) {
 		log.Fatal(path + "err...")
 		return
 	}
+
 	fileList := []dao.File{}
 	for _, file := range files {
 		if file.IsDir() {
 			FilsInPath(path + "/" + file.Name())
 		} else if file.Name() != ".DS_Store" && file.Name() != "Thumbs.db" {
-			// fmt.Println(path + file.Name())
 			fileInfo, e := file.Info()
 			if e != nil {
 				log.Fatal("err01...")
@@ -60,11 +63,17 @@ func FilsInPath(path string) {
 			})
 		}
 	}
-	addErr := fileDao.AddBatch(fileList)
-	fmt.Println(len(files))
+	wg.Add(1)
+	go addFile(fileList)
+
+}
+
+func addFile(files []dao.File) {
+	addErr := fileDao.AddBatch(files)
 	if addErr != nil {
 		log.Fatal("err02...")
 	}
+	defer wg.Done()
 }
 
 func Random(c *gin.Context) {
