@@ -13,6 +13,7 @@ func Register() *gin.Engine {
 	r.Use(CorsMiddleware())
 	initUserRouter(r)
 	initFileRouter(r)
+	go handler.ChannelConsume()
 	r.NoRoute(func(c *gin.Context) {
 		tools.FailWithMsg(c, "please check request url !")
 	})
@@ -34,6 +35,7 @@ func initFileRouter(r *gin.Engine) {
 	userGroup := r.Group("/file")
 	userGroup.GET("/collect", handler.FileCollect)
 	userGroup.GET("/random", handler.Random)
+	userGroup.GET("/channel", handler.ChannelTest)
 }
 
 func CorsMiddleware() gin.HandlerFunc {

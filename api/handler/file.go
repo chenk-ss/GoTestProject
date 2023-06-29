@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"goTestProject/logic/dao"
 	"goTestProject/tools"
 	"log"
@@ -79,4 +80,31 @@ func addFile(files []dao.File) {
 func Random(c *gin.Context) {
 	file := fileDao.Random()
 	tools.SuccessWithMsg(c, "Query random file ok!", file)
+}
+
+var ch = make(chan int)
+
+type ChannelTestParam struct {
+	Id int `form:"id" json:"id" binding:"required"`
+}
+
+func ChannelTest(c *gin.Context) {
+	// ch := make(chan int)
+	var param ChannelTestParam
+	if err := c.ShouldBind(&param); err != nil {
+		tools.FailWithMsg(c, err.Error())
+		return
+	}
+	go func(num int) {
+		ch <- num
+	}(param.Id)
+
+}
+
+func ChannelConsume() {
+	for {
+		fmt.Println("Channel consume start.........")
+		fmt.Println(<-ch)
+		fmt.Println("Channel consume end...........")
+	}
 }
