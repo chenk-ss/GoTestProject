@@ -20,7 +20,7 @@ var mySqlDB = db.GetMySQLDb()
 
 func (u *User) QueryUserByName(name string) User {
 	var user User
-	mySqlDB.Table(u.getTableName()).Select("id, name, birthday").Where("name=?", name).Take(&user)
+	SelectByName(&user, name)
 	return user
 }
 
@@ -34,6 +34,6 @@ func (u *User) Add(name string, birthday time.Time) (User, error) {
 	}
 	user.Name = name
 	user.Birthday = birthday
-	mySqlDB.Table(u.getTableName()).Save(&user)
+	Insert(&user)
 	return user, nil
 }
