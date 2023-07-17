@@ -77,6 +77,14 @@ func addFile(files []dao.File) {
 	defer wg.Done()
 }
 
+// Random file
+// @Summary      Random file
+// @Description  Random file
+// @Tags         file
+// @Accept       json
+// @Produce      json
+// @Success      200 string json "{"code":200,"data":{},"message":"success"}"
+// @Router       /file/random [get]
 func Random(c *gin.Context) {
 	file := fileDao.Random()
 	tools.SuccessWithMsg(c, "Query random file ok!", file)
