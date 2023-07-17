@@ -25,6 +25,15 @@ type QueryUserInfoParam struct {
 	Name string `form:"name" json:"name" binding:"required"`
 }
 
+// Query user info
+// @Summary      Query user info
+// @Description  get user info by name
+// @Tags         user
+// @Accept       json
+// @Produce      json
+// @Param        name query string true "1"
+// @Success      200  {object}  UserDetail
+// @Router       /user/info [get]
 func UserInfo(c *gin.Context) {
 	var param QueryUserInfoParam
 	if err := c.ShouldBind(&param); err != nil {
@@ -47,6 +56,15 @@ type UserRegisterParam struct {
 	Birthday time.Time `form:"birthday" json:"birthday" binding:"required"`
 }
 
+// Register a user
+// @Summary      Register a user
+// @Description  Register a user
+// @Tags         user
+// @Accept       json
+// @Produce      json
+// @Param        param body UserRegisterParam true "params"
+// @Success      200 string json "{"code":200,"data":{},"message":"success"}"
+// @Router       /user/register [post]
 func Register(c *gin.Context) {
 	var param UserRegisterParam
 	if err := c.ShouldBind(&param); err != nil {

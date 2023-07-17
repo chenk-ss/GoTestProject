@@ -1,0 +1,97 @@
+basePath: /
+definitions:
+  handler.UserDetail:
+    properties:
+      age:
+        type: integer
+      id:
+        type: integer
+      username:
+        type: string
+    type: object
+  handler.UserRegisterParam:
+    properties:
+      birthday:
+        type: string
+      name:
+        type: string
+    required:
+    - birthday
+    - name
+    type: object
+host: localhost:7003
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server celler server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Swagger Example API
+  version: "1.0"
+paths:
+  /file/random:
+    get:
+      consumes:
+      - application/json
+      description: Random file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":200,"data":{},"message":"success"}'
+          schema:
+            type: string
+      summary: Random file
+      tags:
+      - file
+  /user/info:
+    get:
+      consumes:
+      - application/json
+      description: get user info by name
+      parameters:
+      - description: "1"
+        in: query
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.UserDetail'
+      summary: Query user info
+      tags:
+      - user
+  /user/register:
+    post:
+      consumes:
+      - application/json
+      description: Register a user
+      parameters:
+      - description: params
+        in: body
+        name: param
+        required: true
+        schema:
+          $ref: '#/definitions/handler.UserRegisterParam'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":200,"data":{},"message":"success"}'
+          schema:
+            type: string
+      summary: Register a user
+      tags:
+      - user
+securityDefinitions:
+  BasicAuth:
+    type: basic
+swagger: "2.0"

@@ -5,13 +5,20 @@ import (
 	"goTestProject/tools"
 	"net/http"
 
+	_ "goTestProject/docs"
+
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func Register() *gin.Engine {
 	r := gin.Default()
 	r.Use(CorsMiddleware())
+	r.GET("swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	initUserRouter(r)
+	initFileRouter(r)
+	go handler.ChannelConsume()
 	r.NoRoute(func(c *gin.Context) {
 		tools.FailWithMsg(c, "please check request url !")
 	})
@@ -27,6 +34,13 @@ func initUserRouter(r *gin.Engine) {
 	{
 		// userGroup.POST("/checkAuth", handler.CheckAuth)
 	}
+}
+
+func initFileRouter(r *gin.Engine) {
+	userGroup := r.Group("/file")
+	userGroup.GET("/collect", handler.FileCollect)
+	userGroup.GET("/random", handler.Random)
+	userGroup.GET("/channel", handler.ChannelTest)
 }
 
 func CorsMiddleware() gin.HandlerFunc {

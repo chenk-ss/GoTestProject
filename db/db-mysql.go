@@ -4,6 +4,7 @@ import (
 	"goTestProject/config"
 	"time"
 
+	sqlVersionController "github.com/chenk-ss/go-mysql-version-control"
 	"github.com/sirupsen/logrus"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -41,6 +42,7 @@ func initMySQLDB(dbName string) {
 	sqlDB.SetConnMaxLifetime(time.Hour)
 
 	dbMySQL = *db
+	sqlVersionController.NewController(&dbMySQL).Start("db/sql/")
 }
 
 func GetMySQLDb() (db *gorm.DB) {
