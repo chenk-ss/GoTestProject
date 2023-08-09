@@ -10,6 +10,7 @@ type User struct {
 	Id       int64 `gorm:"primaryKey"`
 	Name     string
 	Birthday time.Time
+	Password string
 }
 
 func (u *User) getTableName() string {
@@ -24,7 +25,7 @@ func (u *User) QueryUserByName(name string) User {
 	return user
 }
 
-func (u *User) Add(name string, birthday time.Time) (User, error) {
+func (u *User) Add(name string, birthday time.Time, password string) (User, error) {
 	if name == "" {
 		return User{}, errors.New("User name empty!")
 	}
@@ -34,6 +35,7 @@ func (u *User) Add(name string, birthday time.Time) (User, error) {
 	}
 	user.Name = name
 	user.Birthday = birthday
+	user.Password = password
 	Insert(&user)
 	return user, nil
 }
