@@ -116,3 +116,15 @@ func ChannelConsume() {
 		fmt.Println("Channel consume end...........")
 	}
 }
+
+var dst = "./upload/"
+
+func UploadFile(c *gin.Context) {
+	// single file
+	file, _ := c.FormFile("file")
+	log.Println(file.Filename)
+
+	// Upload the file to specific dst.
+	c.SaveUploadedFile(file, dst+file.Filename)
+	tools.SuccessWithMsg(c, fmt.Sprintf("'%s' uploaded!", file.Filename), nil)
+}

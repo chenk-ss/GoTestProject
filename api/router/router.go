@@ -51,6 +51,7 @@ func initFileRouter(r *gin.Engine) {
 	userGroup.GET("/collect", handler.FileCollect)
 	userGroup.GET("/random", handler.Random)
 	userGroup.GET("/channel", handler.ChannelTest)
+	userGroup.POST("/upload", handler.UploadFile)
 }
 
 func initKafkaRouter(r *gin.Engine) {
