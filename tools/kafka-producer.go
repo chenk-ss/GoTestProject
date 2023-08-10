@@ -20,7 +20,7 @@ func PushMsgToKafka(msg string) {
 	}
 }
 
-func init() {
+func KafkaProducer() {
 	kafkaConn = kafka.NewWriter(kafka.WriterConfig{
 		Brokers: []string{"localhost:9092"},
 		Topic:   "my-topic",

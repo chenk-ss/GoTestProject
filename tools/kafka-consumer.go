@@ -9,7 +9,7 @@ import (
 	"github.com/segmentio/kafka-go"
 )
 
-func init() {
+func KafkaConsumer() {
 	client := kafka.NewReader(kafka.ReaderConfig{
 		Brokers:        []string{"localhost:9092"},
 		GroupID:        "my-group",

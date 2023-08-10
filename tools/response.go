@@ -36,10 +36,11 @@ func ResponseWithCode(c *gin.Context, msgCode int, msg interface{}, data interfa
 			msg = MsgCodeMap[-1]
 		}
 	}
-
 	c.AbortWithStatusJSON(http.StatusOK, gin.H{
 		"code":    msgCode,
 		"message": msg,
 		"data":    data,
 	})
+	// log.Println(c.Request.RequestURI)
+	// log.Println(c.Request.Header)
 }
